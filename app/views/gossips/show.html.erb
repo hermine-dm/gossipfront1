@@ -1,0 +1,8 @@
+<h1 class ="ml-3 mt-3">Voici le gossip n=<%= params[:id].to_i %></h1>
+<p class ="ml-3 h5">
+	L'auteur: <%= User.find(Gossip.all.to_a[params[:id].to_i-1].user_id).first_name %> 
+	<%= link_to "Plus d'infos sur l'auteur", authors_id_path(Gossip.all.to_a[params[:id].to_i-1].user_id) %><br/> 
+	Le titre: <%= Gossip.all.to_a[params[:id].to_i-1].title %> <br/> 
+	Le contenu: <%= Gossip.all.to_a[params[:id].to_i-1].content %> <br/> 
+	Créé le: <%= (Gossip.all.to_a[params[:id].to_i-1].created_at).to_date %> <br/> 
+</p>

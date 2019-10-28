@@ -1,0 +1,15 @@
+<h1 class ="ml-3 mt-3">Voici l'auteur n=<%= params[:id].to_i %></h1>
+<p class ="ml-3 h5">
+	L'auteur: <%= User.all.to_a[params[:id].to_i-1].first_name %> <%= User.all.to_a[params[:id].to_i-1].last_name %> <br/> 
+	Son age: <%= User.all.to_a[params[:id].to_i-1].age %> <br/> 
+	Son email: <%= User.all.to_a[params[:id].to_i-1].email %> <br/> 
+	Ses potins: 
+	<% User.find(params[:id].to_i).gossips.to_a.each do |gsp| %> 
+	<ul class="h6">
+		<li> Le titre: <%= gsp.title %> </li>
+		<li> Le lien: <%= link_to "ici", gossips_id_path(gsp.id) %> </li>
+   	</ul>
+	<% end %>
+
+	
+</p>

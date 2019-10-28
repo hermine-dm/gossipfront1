@@ -1,0 +1,13 @@
+<h1 class ="ml-3 mt-3">Welcome</h1>
+<p class ="ml-3 mt-3 h5">BIENVENUE <%= params[:first_name] %> ! Ici c'est notre super site de potins, il est chouette, non ?</p>
+
+<% Gossip.all.to_a.each do |gsp| %>  
+   	
+   		<div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
+  			<div class="card-header"> <%= gsp.title %></div>
+  				<div class="card-body text-secondary">
+    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
+    				<p class="card-text">Le lien: <%= link_to "ici", gossips_id_path(gsp.id) %></p>
+  				</div>
+		</div>
+<% end %>

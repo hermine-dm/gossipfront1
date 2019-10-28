@@ -1,0 +1,13 @@
+<h1 class ="ml-3">Bienvenue sur le site des potins</h1>
+  
+<% Gossip.all.to_a.each do |gsp| %>  
+   	
+   		<div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
+  			<div class="card-header"> <%= gsp.title %></div>
+  				<div class="card-body text-secondary">
+    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
+    				<p class="card-text">Le lien: <%= link_to "ici", gossips_id_path(gsp.id) %></p>
+  				</div>
+		</div>
+<% end %>
+
