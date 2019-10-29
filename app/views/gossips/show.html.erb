@@ -1,9 +1,14 @@
+
+
 <h1 class ="ml-3 mt-3">Voici le gossip n=<%= params[:id].to_i %></h1>
 <p class ="ml-3 h5">
-	L'auteur: <%= User.find(@gossip.user_id).first_name %> 
+	L'auteur: <%= User.find(@gossip.user_id).first_name %> <%= User.find(@gossip.user_id).last_name %> 
 	<%= link_to "Plus d'infos sur l'auteur", author_path(@gossip.user_id) %><br/> 
+	La ville de l'auteur : <%= City.find(User.find(@gossip.user_id).city_id).name %>
+	<%= link_to "Plus d'infos sur la ville", city_path(User.find(@gossip.user_id).city_id) %><br/>  
 	Le titre: <%= @gossip.title %> <br/> 
 	Le contenu: <%= @gossip.content %> <br/> 
 	Créé le: <%= (@gossip.created_at).to_date %> <br/> 
+	Updaté le: <%= (@gossip.updated_at).to_date %> <br/> <!-- si on a recrée la base ca sera le m jour -->
 </p>
 	
