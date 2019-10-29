@@ -19,3 +19,9 @@ h1{
 h2{
 	color: blue;
 }
+#success p{
+    display: block;
+}     
+#success p:empty{
+    display: none;
+}

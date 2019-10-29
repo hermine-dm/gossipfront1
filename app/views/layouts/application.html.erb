@@ -17,29 +17,27 @@
   </head>
   <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="navbar-brand"> <%= link_to "The Gossip Project", welcome_path  %> </div>
+          <div class="navbar-brand"> <%= link_to "The Gossip Project", welcome_index_path  %> </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <!--
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li> -->
-               <li class="nav-item">
-                <div class="nav-link"> <%= link_to "Home", home_path  %> </div>
-                <!--<a class="nav-link" href="#">Team</a>  -->
-              </li>
+             
               <li class="nav-item">
-                <div class="nav-link"> <%= link_to "Team", team_path  %> </div>
-                <!--<a class="nav-link" href="#">Team</a>  -->
-              </li>
-              <li class="nav-item">
-                <div class="nav-link"> <%= link_to "Contact", contact_path %> </div>
+                <div class="nav-link"> <%= link_to "Créer un gossip", new_gossip_path %> </div>
               
               </li>
+              <li class="nav-item">
+                <div class="nav-link"> <%= link_to "Team", team_index_path  %> </div>
+                <!--<a class="nav-link" href="#">Team</a>  -->
+              </li>
+              <li class="nav-item">
+                <div class="nav-link"> <%= link_to "Contact", contact_index_path %> </div>
+              
+              </li>
+
               <!--
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
