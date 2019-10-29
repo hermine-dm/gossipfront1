@@ -1,0 +1,17 @@
+<h1 class ="ml-3 mt-3">Voici la ville n=<%= params[:id].to_i %></h1>
+<p class ="ml-3 h5">
+	Le nom: <%= @city.name %> <br/> 
+	Son code: <%= @city.zip_code %> <br/> 
+	Ses potins: 
+	<% for i in 0...@users.size %>
+		<% if @users[i].city_id == @city.id %>
+			<% @users[i].gossips.to_a.each do |gsp| %> 
+				<ul class="h6">
+					<li> L'auteur: <%= @users[i].first_name %> </li>
+					<li> Le titre: <%= gsp.title %> </li>
+					<li> Le lien: <%= link_to "ici", gossip_path(gsp.id) %> </li>
+	   			</ul>
+			<% end %>
+		<% end %>
+	<% end %>
+</p>

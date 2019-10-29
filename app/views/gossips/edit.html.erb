@@ -1,8 +1,10 @@
 <html>
   <body>
-    <div class="alert alert-danger" role="alert">
-      <p id="alert"><%= flash.now[:alert] %></p>
-    </div>
+    <% if @gossip !=nil%>
+      <div class="alert alert-danger" role="alert">
+        <p id="alert"><%= flash.now[:alert] %></p>
+      </div>
+    <% end %>
 
     <div class="container">
       <h1> Editer ton potin !</h1>

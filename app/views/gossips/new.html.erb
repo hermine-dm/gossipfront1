@@ -1,9 +1,11 @@
 <html>
   <body>
-    <div class="alert alert-danger" role="alert">
-      <p id="alert"><%= flash.now[:alert] %></p>
-    </div>
-
+    <% if @gossip !=nil%>
+      <div class="alert alert-danger" role="alert">
+        <p id="alert"><%= flash.now[:alert] %></p>
+      </div>
+    <% end %>
+    
     <div class="container">
       <h1> Créer ton nouveau potin !</h1>
       <%= form_tag url_for(action: 'create'), method: "post" do %>
