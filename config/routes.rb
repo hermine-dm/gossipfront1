@@ -1,6 +1,7 @@
 
 Rails.application.routes.draw do
-  get 'cities/show'
+ 
+  resources :comments
   resources :authors, only: [:show]
   resources :cities, only: [:show]
   resources :gossips

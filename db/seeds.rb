@@ -45,3 +45,9 @@ puts "creation des private message"
 	JoinPm.create!(user_id: User.all.sample.id, private_message_id: PrivateMessage.all.sample.id)
 end
 puts "creation des joins"
+
+Gossip.all.each{|gsp| Comment.create!(content: Faker::GreekPhilosophers.quote, gossip_id: gsp.id, user_id: User.all.sample.id)}
+10.times do  
+	Comment.create!(content: Faker::GreekPhilosophers.quote, gossip_id: Gossip.all.sample.id, user_id: User.all.sample.id)
+end
+puts "creation de comments"

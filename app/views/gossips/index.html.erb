@@ -1,25 +1,31 @@
-<% if @gossip !=nil%>
-	<div id="success" class="alert alert-success">
-  		<p><%= flash.now[:success] %></p>
-	</div>
- <% end %>
+<html>
+	<header>
+		
+		<% if @gossip !=nil%>
+			<div id="success" class="alert alert-success">
+		  		<p><%= flash.now[:success] %></p>
+			</div>
+		 <% end %>
+	</header>
+	<body>
 
-<h1 class ="ml-3 mt-3">Bienvenue sur le site des potins</h1>
-  
-<% Gossip.all.to_a.each do |gsp| %>  
-   	
-   		<div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
-  			<div class="card-header"> <%= gsp.title %></div>
-  				<div class="card-body text-secondary">
-    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
-    				<p class="card-text">Le lien: <%= link_to "ici", gossip_path(gsp.id) %></p>
-    				<div class="btn btn-primary"> 
-    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "btn text-white"%>
-    				</div>
-    				<div class="btn btn-danger"> 
-    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "btn text-white"%>
-    				</div>
-  				</div>
-		</div>
-<% end %>
-
+		<h1 class ="ml-3 mt-3">Bienvenue sur le site des potins</h1>
+		  
+		<% Gossip.all.to_a.each do |gsp| %>  
+		   		<div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
+		  			<div class="card-header"> <%= gsp.title %></div>
+		  				<div class="card-body text-secondary">
+		    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
+		    				<h5 class="card-title">L'id: <%= gsp.id %></h5>
+		    				<p class="card-text">Le lien: <%= link_to "ici", gossip_path(gsp.id) %></p>
+		    				<div class="btn btn-primary"> 
+		    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "btn text-white"%>
+		    				</div>
+		    				<div class="btn btn-danger"> 
+		    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "btn text-white"%>
+		    				</div>
+		  				</div>
+				</div>
+		<% end %>
+	</body>
+</html>
