@@ -5,8 +5,7 @@
 	<div class="container">
 		<h3>Ces informations</h3>
 		<p class ="h5">
-			L'auteur: <%= User.find(@gossip.user_id).first_name %> <%= User.find(@gossip.user_id).last_name %> 
-			<%= link_to "Plus d'infos sur l'auteur", author_path(@gossip.user_id) %><br/> 
+			L'auteur: <%= User.find(@gossip.user_id).first_name %> <%= User.find(@gossip.user_id).last_name %> <%= link_to "Plus d'infos sur l'auteur", author_path(@gossip.user_id) %><br/> 
 			La ville de l'auteur : <%= City.find(User.find(@gossip.user_id).city_id).name %>
 			<%= link_to "Plus d'infos sur la ville", city_path(User.find(@gossip.user_id).city_id) %><br/>  
 			Le titre: <%= @gossip.title %> <br/> 
@@ -15,25 +14,27 @@
 			Updaté le: <%= (@gossip.updated_at).to_date %> <br/> <!-- si on a recrée la base ca sera le m jour -->
 		</p>
 	</div>
+	
 	<div class="container">
 		<h3>Ces commentaires</h3>
-		<% for i in 0...@comments.size %>
-			<% if @comments[i].gossip_id == @gossip.id %>
-				<ul>
-					<li> <%= @comments[i].content %> </li>
-					<li> L'auteur: <%= User.find(@comments[i].user_id).first_name %>  <%= User.find(@comments[i].user_id).last_name %> </li>
-					<li> Modifier </li>
-		   		</ul>
-				
-			<% end %>
+		<% for comment in @gossip.comments %>
+      			<h5><%= comment.content %></h5>
+      			<div class="btn btn-primary"> 
+		    		<%= link_to "Modifier", edit_gossip_comment_path(@gossip.id, comment.id), :class => "btn text-white" %>
+		    	</div>
+		    	<div class="btn btn-danger"> 
+		    		<%= link_to "Supprimer", gossip_comment_path(@gossip.id, comment.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "btn text-white"%> <!-- pas de bon lien -->
+		    	</div>
+		    	<br />
 		<% end %>
+		<h5> <%= @gossip.comments.size %> commentaires </h5>
 	</div>
+
 	<div class="container">
-		<h3>Nouveau commentaire ?</h3>
-		<%= form_tag url_for(controller: 'comments', action: 'create'), method: "post" do %>
+		<h3>Nouveau commentaire?</h3>
+		<%= form_tag gossip_comments_path(@gossip.id), method: :post do %>
         	<input type="hidden" name="authenticity_token" value= <%= form_authenticity_token %> >
-        	<input type="hidden" name="gossip_id" value= <%= @gossip.id %> >
-            
+        	<input type="hidden" name="gossip_id" value= <%= @gossip.id %> > 
           	<%= text_field_tag 'comment_content' %> <br />
         	<br /> 
         	<%= submit_tag "Envoyer", class: 'btn btn-primary btn-lg btn-submit'  %>

@@ -1,0 +1,16 @@
+<html>
+  <body>
+    <div class="container">
+      <h1> Editer ton commentaire !</h1>
+
+      <%= form_for [@gossip,@comment] do |f| %>
+      <div class="form-group">   
+          <%= f.text_field :content, class:'form_control' %>
+          <%= label_tag 'Le contenu' %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag "Modifier", class: 'btn btn-primary btn-lg btn-submit'  %>
+      <% end %>
+    </div>
+  </body>
+</html>

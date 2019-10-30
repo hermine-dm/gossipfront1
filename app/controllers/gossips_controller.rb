@@ -19,7 +19,6 @@ class GossipsController < ApplicationController
     else
     	flash.now[:alert] = "Loupé ! un titre, un contenu et c'est parti!"
     	render :new
-    	
     end
   end
 
