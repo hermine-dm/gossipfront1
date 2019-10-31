@@ -20,7 +20,7 @@ puts "tout est détruit"
 end
 puts "creation des villes"
 10.times do 
-	User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, description: Faker::Lorem.paragraph_by_chars(number: 60), email: Faker::Internet.email, age: rand(15..105), city_id: City.all.sample.id)
+	User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, description: Faker::Lorem.paragraph_by_chars(number: 60), email: Faker::Internet.email, age: rand(15..105), city_id: City.all.sample.id, password: "youhou", password_confirmation: "youhou")
 end
 puts "creation des users"
 
@@ -51,3 +51,6 @@ Gossip.all.each{|gsp| Comment.create!(content: Faker::GreekPhilosophers.quote, g
 	Comment.create!(content: Faker::GreekPhilosophers.quote, gossip_id: Gossip.all.sample.id, user_id: User.all.sample.id)
 end
 puts "creation de comments"
+
+User.all.each{|user| Like.create!(gossip_id: Gossip.all.sample.id, user_id: user.id)}
+puts "creation de likes"

@@ -1,30 +1,57 @@
 <html>
 	<header>
-		<% if @gossip !=nil%>
-			<div id="success" class="alert alert-success">
-		  		<p><%= flash.now[:success] %></p>
-			</div>
-		 <% end %>
+		<div class="container">
+      		<%= flash_messages %> <!-- voir applicaiton helper-->
+      		<%= yield %>
+    	</div>
 	</header>
 	<body>
 		<h1 class ="ml-3 mt-3">Bienvenue sur le site des potins</h1>
-		<% Gossip.all.to_a.each do |gsp| %>  
-		   		<div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
-		  			<div class="card-header"> <%= gsp.title %></div>
+		<div class="card-deck">
+		<% Gossip.all.to_a.each do |gsp| %>
+				<div class="col-sm-4 mb-3">
+					<div class="card">
+  						<div class="card-header"> <%= gsp.title %></div> 
+		   		<!-- div class="card border-primary mb-3 ml-3" style="max-width: 18rem;">
+		  			<div class="card-header"> <%= gsp.title %></div> -->
 		  				<div class="card-body text-secondary">
 		    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
 		    				<p class="card-text">Le lien: <%= link_to "ici", gossip_path(gsp.id) %></p>
-		    				<% if gsp.user_id == current_user.id %>
-			    				<div class="btn btn-primary"> 
-			    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "text-white"%>
-			    				</div>
-			    				<div class="btn btn-danger"> 
-			    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "text-white"%>
-			    				</div>
-			    			<% end %>
 							<h5> <%= gsp.comments.size %> commentaires </h5>
+		    				<% if current_user %>
+			    				<% if gsp.user_id == current_user.id %>
+				    				<div class="btn btn-primary"> 
+				    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "text-white"%>
+				    				</div>
+				    				<div class="btn btn-danger"> 
+				    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "text-white"%>
+				    				</div>
+
+				    			<% end %>
+				    		<% end %>
+							
+								<% if current_user %>
+									 	<% @like = Like.find_by(user_id:current_user.id, gossip_id:gsp.id)%>
+         								<% if @like == nil %>
+											<div class="btn btn-primary"> 
+								        			<%= link_to "Like", gossip_like_index_path(gsp.id),method: :post, :class => "text-white"%> 
+									        </div>
+										<% else %>
+												<div class="btn btn-outline-primary"> 
+								        			<%= link_to "Unlike", gossip_like_path(gsp.id, @like.id),method: :delete%> 
+									        	</div>
+										<% end %>
+									
+								<% else %>
+									<div class="btn btn-primary"> 
+								        <%= link_to "Like", gossip_like_index_path(gsp.id),method: :post, :class => "text-white"%> 
+									</div>
+								<% end %> 	
+								<%= gsp.likes.size %> like(s)
+							</div>
 		  				</div>
 				</div>
 		<% end %>
+	</div>
 	</body>
 </html>

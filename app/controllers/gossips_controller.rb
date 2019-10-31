@@ -50,7 +50,7 @@ class GossipsController < ApplicationController
 
   def authenticate_user
     unless current_user
-      flash[:danger] = "Please log in."
+      flash[:alert] = "Please log in."
       redirect_to new_session_path
     end
   end

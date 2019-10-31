@@ -1,6 +1,9 @@
 
 Rails.application.routes.draw do
   resources :gossips do
+    resources :like, only: [:index, :create, :destroy]
+  end
+  resources :gossips do
     resources :comments
   end
   resources :sessions, only: [:new, :create, :destroy]

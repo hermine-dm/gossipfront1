@@ -1,21 +1,48 @@
 <html>
   <body>
 	<h1 class ="ml-3 mt-3">Voici la ville n=<%= params[:id].to_i %></h1>
-	<p class ="ml-3 h5">
+	<p class ="ml-3 h3">
 		Le nom: <%= @city.name %> <br/> 
 		Son code: <%= @city.zip_code %> <br/> 
 		Ses potins: 
+		<div class="card-deck">
 		<% for i in 0...@users.size %>
+		<div class="col-sm-4 mb-3">
+		<div class="card">
 			<% if @users[i].city_id == @city.id %>
-				<% @users[i].gossips.to_a.each do |gsp| %> 
-					<ul class="h6">
-						<li> L'auteur: <%= @users[i].first_name %> </li>
-						<li> Le titre: <%= gsp.title %> </li>
-						<li> Le lien: <%= link_to "ici", gossip_path(gsp.id) %> </li>
-		   			</ul>
+				<% @users[i].gossips.to_a.each do |gsp| %>
+					<div class="card-header"> 
+						<h5>L'auteur: <%= @users[i].first_name %> </h5>
+						<h5>Le titre: <%= gsp.title %> </h5>
+						<h5>Le lien: <%= link_to "ici", gossip_path(gsp.id) %> </h5>
+					
+		   			</div>
+		   			<div class="card-body text-secondary">
+							<% if current_user %>
+									 	<% @like = Like.find_by(user_id:current_user.id, gossip_id:gsp.id)%>
+         								<% if @like == nil %>
+											<div class="btn btn-primary"> 
+								        			<%= link_to "Like", gossip_like_index_path(gsp.id),method: :post, :class => "text-white"%> 
+									        </div>
+										<% else %>
+												<div class="btn btn-outline-primary"> 
+								        			<%= link_to "Unlike", gossip_like_path(gsp.id, @like.id),method: :delete%> 
+									        	</div>
+										<% end %>
+									
+								<% else %>
+										<div class="btn btn-primary"> 
+								        	<%= link_to "Like", gossip_like_index_path(gsp.id),method: :post, :class => "text-white"%> 
+									    </div>
+								<% end %> 	
+								<%= gsp.likes.size %> like(s)
+					</div>
 				<% end %>
 			<% end %>
+		</div>
+		</div>
 		<% end %>
+		</div>
 	</p>
 	
   </body>

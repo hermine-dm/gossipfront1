@@ -1,6 +1,11 @@
 <html>
   <body>
     <div class="container">
+      <%= flash_messages %> <!-- voir applicaiton helper-->
+      <%= yield %>
+    </div>
+    
+    <div class="container">
       <h1> Editer ton commentaire !</h1>
 
       <%= form_for [@gossip,@comment] do |f| %>

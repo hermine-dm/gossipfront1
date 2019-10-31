@@ -22,5 +22,11 @@ class User < ApplicationRecord
 	has_many :gossips
 	has_many :private_messages
 	has_many :join_pms
+	has_many :likes
  
+ 	def unique(gsp_id)
+ 		
+ 		self.likes.map{|like| like.gossip_id}.include?(gsp_id)
+ 		
+ 	end
 end

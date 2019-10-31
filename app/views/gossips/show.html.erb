@@ -1,44 +1,110 @@
 
 <html>
   <body>
+  	<div class="container">
+      <%= flash_messages %> <!-- voir applicaiton helper-->
+      <%= yield %>
+    </div>
+
 	<h1 class ="ml-3 mt-3">Gossip n°<%= params[:id].to_i %></h1>
 	<div class="container">
 		<h3>Ces informations</h3>
-		<p class ="h5">
-			L'auteur: <%= User.find(@gossip.user_id).first_name %> <%= User.find(@gossip.user_id).last_name %> <%= link_to "Plus d'infos sur l'auteur", author_path(@gossip.user_id) %><br/> 
-			La ville de l'auteur : <%= City.find(User.find(@gossip.user_id).city_id).name %>
-			<%= link_to "Plus d'infos sur la ville", city_path(User.find(@gossip.user_id).city_id) %><br/>  
-			Le titre: <%= @gossip.title %> <br/> 
-			Le contenu: <%= @gossip.content %> <br/> 
-			Créé le: <%= (@gossip.created_at).to_date %> <br/> 
-			Updaté le: <%= (@gossip.updated_at).to_date %> <br/> <!-- si on a recrée la base ca sera le m jour -->
-		</p>
+			<div class="row">
+    			<div class="col">
+      				L'auteur:
+    			</div>
+    			<div class="col">
+      			<%= User.find(@gossip.user_id).first_name %> <%= User.find(@gossip.user_id).last_name %> <%= link_to "Plus d'infos sur l'auteur", author_path(@gossip.user_id) %>
+    			</div>
+  			</div>
+  			<div class="row">
+    			<div class="col">
+      				La ville de l'auteur :
+    			</div>
+    			<div class="col">
+      				<%= City.find(User.find(@gossip.user_id).city_id).name %>
+			<%= link_to "Plus d'infos sur la ville", city_path(User.find(@gossip.user_id).city_id) %>
+    			</div>
+  			</div>
+  			<div class="row">
+    			<div class="col">
+      				Le titre :
+    			</div>
+    			<div class="col">
+      				<%= @gossip.title %>
+    			</div>
+  			</div>
+  			<div class="row">
+    			<div class="col">
+      				Le contenu :
+    			</div>
+    			<div class="col">
+      				<%= @gossip.content %>
+    			</div>
+  			</div>
+			<div class="row">
+    			<div class="col">
+      				Créé le: <%= (@gossip.created_at).to_date %>
+    			</div>
+    			<div class="col">
+      				Updaté le: <%= (@gossip.updated_at).to_date %>
+    			</div>
+  			</div>
 	</div>
-	
+	<div class="container">
+								<% if current_user %>
+									 	<% @like = Like.find_by(user_id:current_user.id, gossip_id:@gossip.id)%>
+         								<% if @like == nil %>
+											<div class="btn btn-primary"> 
+								        			<%= link_to "Like", gossip_like_index_path(@gossip.id),method: :post, :class => "text-white"%> 
+									        </div>
+										<% else %>
+												<div class="btn btn-outline-primary"> 
+								        			<%= link_to "Unlike", gossip_like_path(@gossip.id, @like.id),method: :delete%> 
+									        	</div>
+										<% end %>
+									
+								<% else %>
+										<div class="btn btn-primary"> 
+								        	<%= link_to "Like", gossip_like_index_path(@gossip.id),method: :post, :class => "text-white"%> 
+									    </div>
+								<% end %> 	
+								<span class="badge badge-secondary"><%= @gossip.likes.size %> </span> like(s)
+								<br /> 
+								<br /> 
+	</div>
 	<div class="container">
 		<h3>Ces commentaires</h3>
+		<div id="list-example" class="list-group">
 		<% for comment in @gossip.comments %>
-      			<h5><%= User.find(comment.user_id).first_name %> <%= User.find(comment.user_id).last_name %></h5>
-      			<h5><%= comment.content %></h5>
-      			<% if comment.user_id == current_user.id %>
-	      			<div class="btn btn-primary"> 
-			    		<%= link_to "Modifier", edit_gossip_comment_path(@gossip.id, comment.id), :class => " text-white" %>
-			    	</div>
-			    	<div class="btn btn-danger"> 
-			    		<%= link_to "Supprimer", gossip_comment_path(@gossip.id, comment.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "text-white"%> <!-- pas de bon lien -->
-			    	</div>
-		    	<br />
-		    	<% end %>
+      			<h5 class="list-group-item list-group-item-action"><%= User.find(comment.user_id).first_name %> 
+      				<%= User.find(comment.user_id).last_name %>
+      				:
+      				<%= comment.content %>
+      				</h5>
+      			
+      			<% if current_user %>
+	      			<% if comment.user_id == current_user.id %>
+		      			<div class="btn btn-primary"> 
+				    		<%= link_to "Modifier", edit_gossip_comment_path(@gossip.id, comment.id), :class => " text-white" %>
+				    	</div>
+				    	<div class="btn btn-danger"> 
+				    		<%= link_to "Supprimer", gossip_comment_path(@gossip.id, comment.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "text-white"%> <!-- pas de bon lien -->
+				    	</div>
+			    	<br />
+			    	<% end %>
+			    <% end %>
 		<% end %>
-		<h5> <%= @gossip.comments.size %> commentaires </h5>
+		<h5> <span class="badge badge-secondary"><%= @gossip.comments.size %> </span> commentaire(s) </h5>
+		<br /> <br /> 
 	</div>
-
+<br /> <br /> 
 	<div class="container">
 		<h3>Nouveau commentaire?</h3>
 			<%= form_tag gossip_comments_path(@gossip.id), method: :post do %>
 	        	<input type="hidden" name="authenticity_token" value= <%= form_authenticity_token %> >
 	        	<input type="hidden" name="gossip_id" value= <%= @gossip.id %> > 
-	          	<%= text_field_tag 'comment_content' %> <br />
+	          	<%= text_area_tag 'comment_content' %> <br />
 	        	<br /> 
 	        	<%= submit_tag "Envoyer", class: 'btn btn-primary btn-lg btn-submit'  %>
 			<% end %>
