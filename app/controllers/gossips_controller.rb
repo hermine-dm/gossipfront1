@@ -1,4 +1,7 @@
 class GossipsController < ApplicationController
+    before_action :authenticate_user, except: [:show, :index]
+    before_action :authenticate_current_user, only: [:edit, :update, :destroy]
+
   def index
   end
 
@@ -11,8 +14,8 @@ class GossipsController < ApplicationController
   end
 
   def create
-  	@gossip = Gossip.new(title: params[:gossip_title],content: params[:gossip_content],user_id: 11) 
-  	
+  	@gossip = Gossip.new(title: params[:gossip_title],content: params[:gossip_content]) 
+  	@gossip.user = current_user
   	if @gossip.save # essaie de sauvegarder en base @gossip
     	flash.now[:success] = 'Bravo tu as bien enregistré ton Gossip !'
     	render :index
@@ -42,4 +45,21 @@ class GossipsController < ApplicationController
   	@gossip.destroy
   	render :index
   end
+
+   private
+
+  def authenticate_user
+    unless current_user
+      flash[:danger] = "Please log in."
+      redirect_to new_session_path
+    end
+  end
+
+  def authenticate_current_user
+    @gossip = Gossip.find(params[:id].to_i)
+    unless current_user.id == @gossip.user_id
+    	redirect_to gossips_path
+  	end
+  end
+
 end

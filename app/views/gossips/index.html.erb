@@ -14,12 +14,15 @@
 		  				<div class="card-body text-secondary">
 		    				<h5 class="card-title">L'auteur: <%= User.find(gsp.user_id).first_name %></h5>
 		    				<p class="card-text">Le lien: <%= link_to "ici", gossip_path(gsp.id) %></p>
-		    				<div class="btn btn-primary"> 
-		    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "btn text-white"%>
-		    				</div>
-		    				<div class="btn btn-danger"> 
-		    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "btn text-white"%>
-		    				</div>
+		    				<% if gsp.user_id == current_user.id %>
+			    				<div class="btn btn-primary"> 
+			    					<%= link_to "Modifier", edit_gossip_path(gsp.id), :class => "text-white"%>
+			    				</div>
+			    				<div class="btn btn-danger"> 
+			    					<%= link_to "Supprimer", gossip_path(gsp.id),method: :delete, data: {confirm: "Etes vous sûr?"}, :class => "text-white"%>
+			    				</div>
+			    			<% end %>
+							<h5> <%= gsp.comments.size %> commentaires </h5>
 		  				</div>
 				</div>
 		<% end %>

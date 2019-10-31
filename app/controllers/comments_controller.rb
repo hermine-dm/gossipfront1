@@ -1,23 +1,23 @@
 class CommentsController < ApplicationController
 	before_action :get_gossip
+	before_action :authenticate_user, except: [:index]
 
 	def index
 		@comments = @gossip.comments
 	end
 
 	def new
-  		#@comment = @gossip.comments.build
 	end
 
 	def create
-	@comment = @gossip.comments.new(content: params[:comment_content],gossip_id: params[:gossip_id],user_id: 10) 
+	@comment = @gossip.comments.new(content: params[:comment_content],gossip_id: params[:gossip_id])
+	@comment.user = current_user 
   		if @comment.save
-    		#flash.now[:success] = 'Bravo tu as bien enregistré ton comment !' a faire marcher
+    		flash.now[:success] = 'Bravo tu as bien enregistré ton comment !'
     		render template: 'gossips/index'
     	else
-    		#flash.now[:alert] = "Loupé !"
+    		flash.now[:alert] = "Loupé !"
     		render template: 'gossips/index'
-    	#	puts "non"
     	end
   	end
 
@@ -52,4 +52,11 @@ class CommentsController < ApplicationController
   		def post_params
       		params.require(:comment).permit(:content, :gossip_id)
     	end
+
+		def authenticate_user
+		    unless current_user
+		      flash[:danger] = "Please log in."
+		      redirect_to new_session_path
+		    end
+		end
 end

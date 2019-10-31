@@ -3,10 +3,9 @@ Rails.application.routes.draw do
   resources :gossips do
     resources :comments
   end
-  #resources :comments
-  resources :authors, only: [:show]
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :authors, only: [:show, :create, :new]
   resources :cities, only: [:show]
-  #resources :gossips
   resources :team, only: [:index]
   resources :contact, only: [:index]
   resources :welcome, only: [:index, :show]

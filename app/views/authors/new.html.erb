@@ -1,0 +1,42 @@
+<html>
+  <body>
+    <div class="container">
+      <%= flash_messages %> <!-- voir applicaiton helper-->
+      <%= yield %>
+    </div>
+    
+    <div class="container">
+      <h1> Nouveau auteur ? Enregistre toi !</h1>
+      <%= form_tag url_for(action: 'create'), method: "post" do %>
+        <input type="hidden" name="authenticity_token" value= <%= form_authenticity_token %> >
+        <br /> 
+          <%= text_field_tag 'author_first_name' %>
+          <%= label_tag 'Ton Prénom' %>
+        <br /> 
+          <%= text_field_tag 'author_last_name'%>
+          <%= label_tag 'Ton Nom' %>
+        <br /> 
+          <%= text_field_tag 'author_email'%>
+          <%= label_tag 'Ton Email' %>
+        <br /> 
+          <%= text_field_tag 'author_age'%>
+          <%= label_tag 'Ton Age' %>
+        <br /> 
+          <%= text_area_tag 'author_description'%>
+          <%= label_tag 'Ta Description' %>
+        <br /> 
+          <%= password_field_tag 'author_password'%>
+          <%= label_tag 'Ton mot de passe' %>
+        <br /> 
+          <%= password_field_tag 'author_passwordconf'%>
+          <%= label_tag 'Ton mot de passe (vérification)' %>
+        <br /> <br />
+        <%= submit_tag "S'enregistrer", class: 'btn btn-primary btn-lg btn-submit'  %>
+        <br /> <br />
+        <div class="btn btn-outline-primary btn-lg btn-submit"> 
+            <%= link_to "Ou Se connecter", new_session_path %>
+        </div>
+      <% end %>
+    </div>
+  </body>
+</html>

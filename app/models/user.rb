@@ -13,8 +13,11 @@ class User < ApplicationRecord
     validates :age,
       presence: true,
       numericality: { only_integer: true, greater_than_or_equal_to: 1}
-    
-
+    validates :password, 
+      presence: true, 
+      length: { minimum: 6 }
+      
+    has_secure_password
 	belongs_to :city
 	has_many :gossips
 	has_many :private_messages
